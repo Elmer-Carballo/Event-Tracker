@@ -1,2 +1,2 @@
 # Event-Tracker
-The even tracker created for CSSE-350: Software Engineering.
+The event tracker created for CSSE-350: Software Engineering.
