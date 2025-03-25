@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TeamSync - Fitness Feedback</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Fitness Feedback</h1>
+    <form method="POST">
+        <label>Fatigue (1-5): <input type="number" name="fatigue" min="1" max="5" required></label><br>
+        <label>Mental State (1-5): <input type="number" name="mental" min="1" max="5" required></label><br>
+        <textarea name="notes" placeholder="Additional Notes"></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

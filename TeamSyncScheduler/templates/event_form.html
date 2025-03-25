@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TeamSync - {{ action }} Event</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>{{ action }} Event</h1>
+    <form method="POST">
+        <input type="date" name="date" value="{{ event[1] if event else '' }}" required><br>
+        <input type="time" name="time" value="{{ event[2] if event else '' }}" required><br>
+        <input type="text" name="location" placeholder="Location" value="{{ event[3] if event else '' }}" required><br>
+        {% if role == 'coach' %}
+        <select name="type" required>
+            <option value="team" {% if event and event[4] == 'team' %}selected{% endif %}>Team</option>
+            <option value="personal" {% if event and event[4] == 'personal' %}selected{% endif %}>Personal</option>
+        </select><br>
+        <input type="text" name="required_items" placeholder="Required Items" value="{{ event[6] if event else '' }}"><br>
+        {% else %}
+        <input type="hidden" name="type" value="personal">
+        {% endif %}
+        <textarea name="notes" placeholder="Notes">{{ event[5] if event else '' }}</textarea><br>
+        <input type="submit" value="{{ action }}">
+    </form>
+</body>
+</html>
