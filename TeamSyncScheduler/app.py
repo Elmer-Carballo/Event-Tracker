@@ -13,7 +13,7 @@ def get_db_connection():
     try:
         conn = mysql.connector.connect(
             host='localhost',
-            database='athletic_scheduler',
+            database='event-scheduler-DB',
             user='root',
             password='YOUR_ROOT_PASSWORD'  # Replace with your actual MySQL root password
         )
