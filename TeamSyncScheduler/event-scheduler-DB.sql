@@ -70,11 +70,11 @@ CREATE TABLE messages (
     sender_id INT NOT NULL,
     team_id INT NOT NULL,
     content TEXT NOT NULL,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, -- Changed from TEXT to DATETIME
-    event_id INT, -- Optional link to an event
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    event_id INT,
     FOREIGN KEY (sender_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (team_id) REFERENCES teams(team_id) ON DELETE CASCADE,
-    FOREIGN KEY (event_id) REFERENCES events(event_reforeign_key_id) ON DELETE SET NULL
+    FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE SET NULL
 );
 
 -- Fix the users table foreign key (added after teams is created)
