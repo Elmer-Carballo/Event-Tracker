@@ -1,6 +1,6 @@
 -- Create the database
-CREATE DATABASE event-scheduler-DB;
-USE event-scheduler-DB;
+CREATE DATABASE event_scheduler;
+USE event_scheduler;
 
 -- Table: users
 -- Stores coach and athlete info (username, password, role, team, notifications)
