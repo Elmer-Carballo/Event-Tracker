@@ -1,25 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamSync - Register</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Register</h1>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <p>{{ messages[0] }}</p>
-        {% endif %}
-    {% endwith %}
-    <form method="POST">
-        <input type="text" name="username" placeholder="Username" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <select name="role" required>
-            <option value="coach">Coach</option>
-            <option value="player">Player</option>
-        </select><br>
-        <input type="number" name="team_id" placeholder="Team ID" required><br>
-        <input type="submit" value="Register">
-    </form>
+    <div class="container">
+        <div class="auth-card">
+            <h1>TeamSync Register</h1>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <p class="error-message">{{ messages[0] }}</p>
+                {% endif %}
+            {% endwith %}
+            <form method="POST" class="auth-form">
+                <div class="form-group">
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <select name="role" required>
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="coach">Coach</option>
+                        <option value="player">Player</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="team_id" placeholder="Team ID" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+            <p class="auth-link">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </div>
+    </div>
 </body>
 </html>

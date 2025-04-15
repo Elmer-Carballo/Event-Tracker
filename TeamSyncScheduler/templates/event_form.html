@@ -1,26 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamSync - {{ action }} Event</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>{{ action }} Event</h1>
-    <form method="POST">
-        <input type="date" name="date" value="{{ event[1] if event else '' }}" required><br>
-        <input type="time" name="time" value="{{ event[2] if event else '' }}" required><br>
-        <input type="text" name="location" placeholder="Location" value="{{ event[3] if event else '' }}" required><br>
-        {% if role == 'coach' %}
-        <select name="type" required>
-            <option value="team" {% if event and event[4] == 'team' %}selected{% endif %}>Team</option>
-            <option value="personal" {% if event and event[4] == 'personal' %}selected{% endif %}>Personal</option>
-        </select><br>
-        <input type="text" name="required_items" placeholder="Required Items" value="{{ event[6] if event else '' }}"><br>
-        {% else %}
-        <input type="hidden" name="type" value="personal">
-        {% endif %}
-        <textarea name="notes" placeholder="Notes">{{ event[5] if event else '' }}</textarea><br>
-        <input type="submit" value="{{ action }}">
-    </form>
+    <div class="container">
+        <div class="form-card">
+            <h1>{{ action }} Event</h1>
+            <form method="POST" class="form">
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" value="{{ event[1] if event else '' }}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Time</label>
+                    <input type="time" id="time" name="time" value="{{ event[2] if event else '' }}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" placeholder="Enter location" value="{{ event[3] if event else '' }}" class="form-control" required>
+                </div>
+                {% if role == 'coach' %}
+                    <div class="form-group">
+                        <label for="type">Event Type</label>
+                        <select id="type" name="type" class="form-control" required>
+                            <option value="team" {% if event and event[4] == 'team' %}selected{% endif %}>Team</option>
+                            <option value="personal" {% if event and event[4] == 'personal' %}selected{% endif %}>Personal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="required_items">Required Items</label>
+                        <input type="text" id="required_items" name="required_items" placeholder="Enter required items" value="{{ event[6] if event else '' }}" class="form-control">
+                    </div>
+                {% else %}
+                    <input type="hidden" name="type" value="personal">
+                {% endif %}
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" name="notes" placeholder="Add any notes" class="form-control">{{ event[5] if event else '' }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">{{ action }}</button>
+            </form>
+            <p class="form-link"><a href="{{ url_for('dashboard') }}">Back to Dashboard</a></p>
+        </div>
+    </div>
 </body>
 </html>

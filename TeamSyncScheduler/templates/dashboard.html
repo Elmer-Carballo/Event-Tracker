@@ -1,56 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamSync - Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>TeamSync Dashboard</h1>
-    <p><a href="{{ url_for('add_event') }}">Add Event</a> | <a href="{{ url_for('logout') }}">Logout</a></p>
-    
-    <h2>Calendar</h2>
-    <ul>
-    {% for event in events %}
-        <li>{{ event[1] }} {{ event[2] }} - {{ event[3] }} ({{ event[4] }})
-            {% if event[5] %}<br>Notes: {{ event[5] }}{% endif %}
-            {% if event[6] %}<br>Items: {{ event[6] }}{% endif %}
-            {% if role == 'player' and event[4] == 'team' %}
-                <form method="POST" action="{{ url_for('submit_attendance', event_id=event[0]) }}">
-                    <select name="status">
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                        <option value="Maybe">Maybe</option>
-                    </select>
-                    <input type="submit" value="Submit">
+    <div class="container">
+        <div class="dashboard-card">
+            <h1>TeamSync Dashboard</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('add_event') }}" class="btn btn-secondary">Add Event</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+            </div>
+
+            <h2>Calendar</h2>
+            <ul class="event-list">
+                {% for event in events %}
+                    <li class="event-item">
+                        <div class="event-details">
+                            <strong>{{ event[1] }} {{ event[2] }}</strong> - {{ event[3] }} ({{ event[4] | capitalize }})
+                            {% if event[5] %}
+                                <p>Notes: {{ event[5] }}</p>
+                            {% endif %}
+                            {% if event[6] %}
+                                <p>Items: {{ event[6] }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="event-actions">
+                            {% if role == 'player' and event[4] == 'team' %}
+                                <form method="POST" action="{{ url_for('submit_attendance', event_id=event[0]) }}" class="inline-form">
+                                    <select name="status" class="form-control" required>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                        <option value="Maybe">Maybe</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary btn-small">Submit</button>
+                                </form>
+                                <a href="{{ url_for('submit_feedback', event_id=event[0]) }}" class="btn btn-secondary btn-small">Feedback</a>
+                            {% endif %}
+                            {% if role == 'coach' or event[7] == session['user_id'] %}
+                                <a href="{{ url_for('edit_event', event_id=event[0]) }}" class="btn btn-secondary btn-small">Edit</a>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <h2>To-Do Today</h2>
+            <ul class="todo-list">
+                {% for todo in todos %}
+                    <li class="todo-item">{{ todo[2] }} - {{ todo[3] }}</li>
+                {% endfor %}
+            </ul>
+
+            {% if role == 'coach' %}
+                <h2>Send Message</h2>
+                <form method="POST" action="{{ url_for('send_message') }}" class="form">
+                    <div class="form-group">
+                        <textarea name="content" class="form-control" placeholder="Type your message..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send</button>
                 </form>
-                <a href="{{ url_for('submit_feedback', event_id=event[0]) }}">Feedback</a>
             {% endif %}
-            {% if role == 'coach' or event[7] == session['user_id'] %}
-                <a href="{{ url_for('edit_event', event_id=event[0]) }}">Edit</a>
-            {% endif %}
-        </li>
-    {% endfor %}
-    </ul>
-    
-    <h2>To-Do Today</h2>
-    <ul>
-    {% for todo in todos %}
-        <li>{{ todo[2] }} - {{ todo[3] }}</li>
-    {% endfor %}
-    </ul>
-    
-    {% if role == 'coach' %}
-    <h2>Send Message</h2>
-    <form method="POST" action="{{ url_for('send_message') }}">
-        <textarea name="content" required></textarea><br>
-        <input type="submit" value="Send">
-    </form>
-    {% endif %}
-    
-    <h2>Settings</h2>
-    <form method="POST" action="{{ url_for('toggle_notifications') }}">
-        <label>Notifications: <input type="checkbox" name="notifications" {% if session.get('notification_preference', 1) %}checked{% endif %}></label>
-        <input type="submit" value="Save">
-    </form>
+
+            <h2>Settings</h2>
+            <form method="POST" action="{{ url_for('toggle_notifications') }}" class="form">
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        Notifications
+                        <input type="checkbox" name="notifications" {% if session.get('notification_preference', 1) %}checked{% endif %}>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

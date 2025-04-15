@@ -1,16 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeamSync - Fitness Feedback</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Fitness Feedback</h1>
-    <form method="POST">
-        <label>Fatigue (1-5): <input type="number" name="fatigue" min="1" max="5" required></label><br>
-        <label>Mental State (1-5): <input type="number" name="mental" min="1" max="5" required></label><br>
-        <textarea name="notes" placeholder="Additional Notes"></textarea><br>
-        <input type="submit" value="Submit">
-    </form>
+    <div class="container">
+        <div class="form-card">
+            <h1>Fitness Feedback</h1>
+            <form method="POST" class="form">
+                <div class="form-group">
+                    <label for="fatigue">Fatigue (1-5)</label>
+                    <input type="number" id="fatigue" name="fatigue" min="1" max="5" placeholder="1-5" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="mental">Mental State (1-5)</label>
+                    <input type="number" id="mental" name="mental" min="1" max="5" placeholder="1-5" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" name="notes" placeholder="Add any notes" class="form-control"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <p class="form-link"><a href="{{ url_for('dashboard') }}">Back to Dashboard</a></p>
+        </div>
+    </div>
 </body>
 </html>

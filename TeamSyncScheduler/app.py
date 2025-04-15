@@ -15,7 +15,7 @@ def get_db_connection():
             host='localhost',
             database='event_scheduler_DB',
             user='root',
-            password='YOUR_PASSWORD'  # Replace with your actual MySQL root password
+            password='YOURPASSWORD'  # Replace with your actual MySQL root password
         )
         return conn
     except Error as e:

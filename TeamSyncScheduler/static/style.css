@@ -1,23 +1,245 @@
+/* Reset and General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Times New Roman, sans-serif;
-    margin: 20px;
-}
-h1, h2 {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
     color: #333;
+    line-height: 1.6;
 }
-form {
-    margin: 10px 0;
+
+/* Container for Centering Content */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
 }
-input, textarea, select {
-    margin: 5px 0;
-    padding: 5px;
+
+/* Cards */
+.auth-card, .dashboard-card, .form-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px; /* Restored for login/register */
+    text-align: center;
 }
-ul {
+
+.dashboard-card {
+    max-width: 800px;
+    text-align: left;
+}
+
+.form-card {
+    max-width: 500px;
+    text-align: left;
+}
+
+/* Headings */
+h1 {
+    color: #1a3c5e; /* Navy Blue */
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.auth-card h1 {
+    font-size: 28px; /* Restored */
+}
+
+h2 {
+    color: #1a3c5e;
+    margin: 20px 0 10px;
+    font-size: 20px;
+}
+
+/* Form Styles */
+.auth-form, .form, .inline-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Restored */
+}
+
+.inline-form {
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* General form control styles */
+.form-control {
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 18px;
+    width: 100%;
+    transition: border-color 0.3s ease;
+}
+
+/* Specific styles for login/register inputs and select */
+.auth-form .form-control {
+    padding: 12px; /* Restored for normal size */
+    font-size: 16px; /* Restored for normal size */
+    border-radius: 5px; /* Restored */
+}
+
+/* Ensure select matches input styling */
+.auth-form select.form-control {
+    appearance: none;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%231a3c5e" d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center;
+    padding-right: 36px; /* Adjusted for normal size */
+}
+
+/* Focus state */
+.form-control:focus {
+    outline: none;
+    border-color: #f28c38; /* Orange */
+}
+
+textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Labels */
+label {
+    font-size: 14px;
+    color: #1a3c5e;
+    margin-bottom: 5px;
+}
+
+.auth-form label {
+    font-size: 16px; /* Restored */
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+
+/* Button Styles */
+.btn {
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    display: inline-block;
+}
+
+.auth-form .btn {
+    padding: 12px; /* Restored */
+    font-size: 16px; /* Restored */
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #f28c38; /* Orange */
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #e07b30; /* Darker Orange */
+}
+
+.btn-secondary {
+    background-color: #1a3c5e; /* Navy Blue */
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #0e2a44; /* Darker Navy */
+}
+
+.btn-small {
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+/* Navigation Links */
+.nav-links {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.dashboard-card .nav-links {
+    justify-content: flex-start;
+}
+
+/* Lists */
+.event-list, .todo-list {
     list-style-type: none;
     padding: 0;
 }
-li {
+
+.event-item, .todo-item {
     margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.event-item:hover, .todo-item:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.event-details p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.event-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.todo-item {
+    justify-content: flex-start;
+}
+
+/* Error Message */
+.error-message {
+    color: #d32f2f;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* Links */
+.auth-link, .form-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #1a3c5e;
+}
+
+.auth-link a, .form-link a {
+    color: #f28c38;
+    text-decoration: none;
+}
+
+.auth-link a:hover, .form-link a:hover {
+    text-decoration: underline;
 }
