@@ -243,3 +243,43 @@ label {
 .auth-link a:hover, .form-link a:hover {
     text-decoration: underline;
 }
+
+/* Message Page Styling */
+.message-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.message-item {
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #fff;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.message-item:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.message-header {
+    font-weight: bold;
+    color: #1a3c5e;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.message-timestamp {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.message-content {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.5;
+}

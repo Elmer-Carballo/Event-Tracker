@@ -79,3 +79,15 @@ CREATE TABLE messages (
 
 -- Fix the users table foreign key (added after teams is created)
 ALTER TABLE users ADD FOREIGN KEY (team_id) REFERENCES teams(team_id) ON DELETE SET NULL;
+
+-- Table: player_feedback
+-- Stores anonymous or identified feedback from players to coaches (not tied to events)
+CREATE TABLE player_feedback (
+    feedback_id INT AUTO_INCREMENT PRIMARY KEY,
+    player_id INT NOT NULL, -- The player submitting the feedback
+    coach_id INT NOT NULL, -- The intended recipient coach
+    message TEXT NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (player_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (coach_id) REFERENCES users(user_id) ON DELETE CASCADE
+);

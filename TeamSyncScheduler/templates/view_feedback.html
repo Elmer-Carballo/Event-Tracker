@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Player Feedback</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-card">
+            <div class="nav-links">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary btn-small">Back to Dashboard</a>
+            </div>
+            <h2>Player Feedback</h2>
+            <ul class="feedback-list">
+                {% for fb in feedback_entries %}
+                <li class="feedback-item">
+                    <div class="feedback-header">
+                        <strong>{{ fb.player_name }}</strong> - Event on {{ fb.date }} at {{ fb.time }} ({{ fb.location }})
+                    </div>
+                    <div class="feedback-metrics">
+                        <span class="metric">Physical Fatigue: {{ fb.fatigue_level }}/5</span>
+                        <span class="metric">Mental State: {{ fb.mental_state }}/5</span>
+                    </div>
+                    {% if fb.notes %}
+                    <div class="feedback-notes">
+                        Notes: {{ fb.notes }}
+                    </div>
+                    {% endif %}
+                </li>
+                {% else %}
+                <li>No feedback received yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

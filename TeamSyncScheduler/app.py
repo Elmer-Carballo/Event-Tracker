@@ -15,7 +15,7 @@ def get_db_connection():
             host='localhost',
             database='event_scheduler_DB',
             user='root',
-            password='YOURPASSWORD'  # Replace with your actual MySQL root password
+            password='J.Cole28'  # Replace with your actual MySQL root password
         )
         return conn
     except Error as e:
@@ -107,49 +107,180 @@ def hash_password(password):
 # Login
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    # Clear any previous session data when accessing login page
+    if request.method == 'GET':
+        session.clear()
+        
     if request.method == 'POST':
-        username = request.form['username']
-        password = hash_password(request.form['password'])
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '')
+        
+        # Input validation
+        validation_errors = []
+        
+        # Check if username is provided
+        if not username:
+            validation_errors.append("Username is required")
+        
+        # Check if password is provided
+        if not password:
+            validation_errors.append("Password is required")
+            
+        # If there are validation errors, flash them and return to login
+        if validation_errors:
+            for error in validation_errors:
+                flash(error)
+            return render_template('login.html')
+            
+        # Hash the password for database comparison
+        hashed_password = hash_password(password)
+        
+        # Try to establish database connection
         conn = get_db_connection()
         if not conn:
-            flash('Database connection failed')
+            flash('Database connection failed. Please try again later.')
             return render_template('login.html')
-        c = conn.cursor()
-        c.execute("SELECT * FROM users WHERE username = %s AND hashed_password = %s", 
-                 (username, password))
-        user = c.fetchone()
-        conn.close()
-        if user:
-            session['user_id'] = user[0]
-            session['role'] = user[3]
-            session['team_id'] = user[4]
-            session['notification_preference'] = user[5]  # Store notification pref in session
+            
+        try:
+            c = conn.cursor(dictionary=True)
+            
+            # First check if the username exists
+            c.execute("SELECT * FROM users WHERE username = %s", (username,))
+            user = c.fetchone()
+            
+            if not user:
+                # Username not found, but don't be too specific in error message (security best practice)
+                flash('Invalid username or password')
+                return render_template('login.html')
+                
+            # Now check if the password matches
+            if user['hashed_password'] != hashed_password:
+                flash('Invalid username or password')
+                return render_template('login.html')
+                
+            # Login successful - store user data in session
+            session['user_id'] = user['user_id']
+            session['username'] = user['username']
+            session['role'] = user['role']
+            session['team_id'] = user['team_id']
+            session['notification_preference'] = user['notification_preference']
+            
+            # Log successful login (optional)
+            print(f"User {username} logged in successfully")
+            
+            # Redirect to dashboard
             return redirect(url_for('dashboard'))
-        flash('Invalid credentials')
+            
+        except Error as e:
+            # Log the actual error for debugging
+            print(f"Database error during login: {e}")
+            flash('An error occurred during login. Please try again.')
+        finally:
+            conn.close()
+            
+    # GET request or failed POST, show login page
     return render_template('login.html')
 
 # Register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form['username']
-        password = hash_password(request.form['password'])
-        role = request.form['role']
-        team_id = int(request.form['team_id'])  # Simplified; assumes team_id exists
+        # Get form data with proper validation
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '')
+        role = request.form.get('role', '')
+        team_id_str = request.form.get('team_id', '')
+        
+        # Comprehensive validation with specific error messages
+        validation_errors = []
+        
+        # Username validation - Check length and allowed characters
+        if not username:
+            validation_errors.append("Username is required")
+        elif len(username) < 3:
+            validation_errors.append("Username must be at least 3 characters long")
+        elif len(username) > 50:
+            validation_errors.append("Username is too long (maximum 50 characters)")
+        elif not username.isalnum():
+            validation_errors.append("Username must contain only letters and numbers")
+            
+        # Password validation - Ensure minimum security
+        if not password:
+            validation_errors.append("Password is required")
+        elif len(password) < 6:
+            validation_errors.append("Password must be at least 6 characters long")
+            
+        # Role validation - Must be either 'coach' or 'player'
+        if not role:
+            validation_errors.append("Role is required")
+        elif role not in ['coach', 'player']:
+            validation_errors.append("Invalid role selection")
+            
+        # Team ID validation - Must be a positive integer
+        try:
+            team_id = int(team_id_str)
+            if team_id <= 0:
+                validation_errors.append("Team ID must be a positive number")
+        except ValueError:
+            validation_errors.append("Team ID must be a number")
+            
+        # If there are validation errors, flash them and return to registration form
+        if validation_errors:
+            for error in validation_errors:
+                flash(error)
+            return render_template('register.html')
+            
+        # Hash the password for storage
+        hashed_password = hash_password(password)
+        
+        # Try to establish database connection
         conn = get_db_connection()
         if not conn:
-            flash('Database connection failed')
+            flash('Database connection failed. Please try again later.')
             return render_template('register.html')
-        c = conn.cursor()
+            
         try:
-            c.execute("INSERT INTO users (username, hashed_password, role, team_id) VALUES (%s, %s, %s, %s)", 
-                     (username, password, role, team_id))
+            c = conn.cursor()
+            
+            # Check if username already exists
+            c.execute("SELECT user_id FROM users WHERE username = %s", (username,))
+            if c.fetchone():
+                flash('Username already taken. Please choose another username.')
+                return render_template('register.html')
+                
+            # Check if team exists
+            c.execute("SELECT team_id FROM teams WHERE team_id = %s", (team_id,))
+            if not c.fetchone():
+                flash('Team ID does not exist. Please enter a valid team ID.')
+                return render_template('register.html')
+                
+            # All validations passed, insert new user
+            c.execute("""
+                INSERT INTO users (username, hashed_password, role, team_id) 
+                VALUES (%s, %s, %s, %s)
+            """, (username, hashed_password, role, team_id))
+            
             conn.commit()
+            
+            # Registration successful - flash success message
+            flash('Registration successful! Please log in.')
             return redirect(url_for('login'))
-        except mysql.connector.IntegrityError:
-            flash('Username already taken or invalid team ID')
+            
+        except mysql.connector.IntegrityError as e:
+            # Handle database integrity errors
+            print(f"Database integrity error: {e}")
+            if "Duplicate entry" in str(e):
+                flash('Username already exists. Please choose another username.')
+            else:
+                flash('An error occurred during registration. Please try again.')
+        except Error as e:
+            # Handle other database errors
+            print(f"Database error during registration: {e}")
+            flash('An error occurred during registration. Please try again.')
         finally:
             conn.close()
+            
+    # GET request or failed POST, show registration form
     return render_template('register.html')
 
 # Dashboard
@@ -311,6 +442,33 @@ def send_message():
     conn.close()
     return redirect(url_for('dashboard'))
 
+# View Messages
+@app.route('/messages')
+def view_messages():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    conn = get_db_connection()
+    if not conn:
+        flash('Database connection failed')
+        return redirect(url_for('dashboard'))
+
+    c = conn.cursor()
+
+    # Retrieve messages for the player's team
+    c.execute("""
+        SELECT m.content, m.timestamp, u.username 
+        FROM messages m 
+        JOIN users u ON m.sender_id = u.user_id
+        WHERE m.team_id = %s
+        ORDER BY m.timestamp DESC
+    """, (session['team_id'],))
+    
+    messages = c.fetchall()
+    conn.close()
+    return render_template('messages.html', messages=messages, role=session['role'])
+
+
 # Toggle Notifications
 @app.route('/toggle_notifications', methods=['POST'])
 def toggle_notifications():
@@ -329,6 +487,41 @@ def toggle_notifications():
     conn.close()
     session['notification_preference'] = pref  # Update session
     return redirect(url_for('dashboard'))
+
+# View Feedback (Coach Feature)
+@app.route('/view_feedback')
+def view_feedback():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+        
+    # Only allow coaches to access this page
+    if session['role'] != 'coach':
+        flash('Access denied: Coach permission required')
+        return redirect(url_for('dashboard'))
+        
+    conn = get_db_connection()
+    if not conn:
+        flash('Database connection failed')
+        return redirect(url_for('dashboard'))
+        
+    c = conn.cursor(dictionary=True)
+    
+    # Get all feedback for events associated with this coach's team
+    c.execute("""
+        SELECT ff.feedback_id, ff.event_id, e.date, e.time, e.location, 
+               u.username AS player_name, ff.fatigue_level, ff.mental_state, ff.notes
+        FROM fitness_feedback ff
+        JOIN users u ON ff.user_id = u.user_id
+        JOIN events e ON ff.event_id = e.event_id
+        WHERE e.team_id = %s
+        ORDER BY e.date DESC, e.time DESC
+    """, (session['team_id'],))
+    
+    feedback_entries = c.fetchall()
+    conn.close()
+    
+    return render_template('view_feedback.html', feedback_entries=feedback_entries)
+
 
 # Logout
 @app.route('/logout')

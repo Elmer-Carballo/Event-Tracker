@@ -10,22 +10,57 @@
     <div class="container">
         <div class="auth-card">
             <h1>TeamSync Login</h1>
-            {% with messages = get_flashed_messages() %}
+            
+            <!-- Flash Messages Section with Improved Styling -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
-                    <p class="error-message">{{ messages[0] }}</p>
+                    {% for category, message in messages %}
+                        <div class="flash-message {% if category == 'error' %}flash-error{% elif category == 'success' %}flash-success{% else %}flash-warning{% endif %} {% if 'Invalid' in message %}shake{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 {% endif %}
             {% endwith %}
-            <form method="POST" class="auth-form">
+            
+            <form method="POST" class="auth-form" id="login-form">
                 <div class="form-group">
-                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="text" name="username" id="username" placeholder="Username" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="password" name="password" id="password" placeholder="Password" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
             <p class="auth-link">Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
         </div>
     </div>
+    
+    <script>
+        // Client-side validation (enhances server-side validation)
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            let username = document.getElementById('username').value.trim();
+            let password = document.getElementById('password').value;
+            let hasError = false;
+            
+            // Reset any previous error states
+            document.getElementById('username').classList.remove('input-error');
+            document.getElementById('password').classList.remove('input-error');
+            
+            // Basic validation
+            if (username === '') {
+                document.getElementById('username').classList.add('input-error');
+                hasError = true;
+            }
+            
+            if (password === '') {
+                document.getElementById('password').classList.add('input-error');
+                hasError = true;
+            }
+            
+            if (hasError) {
+                e.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+    </script>
 </body>
 </html>

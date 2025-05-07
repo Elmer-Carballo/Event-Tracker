@@ -64,7 +64,17 @@
                     <button type="submit" class="btn btn-primary">Send</button>
                 </form>
             {% endif %}
+            
+            <h2>View Messages</h2>
+            <a href="{{ url_for('view_messages') }}">View Team Messages</a>
 
+            
+            {% if role == 'coach' %}
+            <h2>View Feedback</h2>
+            <a href="{{ url_for('view_feedback') }}" class="btn btn-primary">View Player Feedback</a>
+            {% endif %}
+
+            
             <h2>Settings</h2>
             <form method="POST" action="{{ url_for('toggle_notifications') }}" class="form">
                 <div class="form-group">

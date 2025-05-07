@@ -10,32 +10,118 @@
     <div class="container">
         <div class="auth-card">
             <h1>TeamSync Register</h1>
-            {% with messages = get_flashed_messages() %}
+            
+            <!-- Flash Messages Section with Improved Styling -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
-                    <p class="error-message">{{ messages[0] }}</p>
+                    {% for category, message in messages %}
+                        <div class="flash-message {% if category == 'error' %}flash-error{% elif category == 'success' %}flash-success{% else %}flash-warning{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 {% endif %}
             {% endwith %}
-            <form method="POST" class="auth-form">
+            
+            <form method="POST" class="auth-form" id="register-form">
                 <div class="form-group">
-                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="text" name="username" id="username" placeholder="Username (letters & numbers only)" required>
+                    <span class="field-hint">3-50 characters, letters and numbers only</span>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="password" name="password" id="password" placeholder="Password (minimum 6 characters)" required>
+                    <span class="field-hint">Minimum 6 characters</span>
                 </div>
                 <div class="form-group">
-                    <select name="role" required>
+                    <select name="role" id="role" required>
                         <option value="" disabled selected>Select Role</option>
                         <option value="coach">Coach</option>
                         <option value="player">Player</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <input type="number" name="team_id" placeholder="Team ID" required>
+                    <input type="number" name="team_id" id="team_id" placeholder="Team ID" required>
+                    <span class="field-hint">Enter your team's ID number</span>
                 </div>
                 <button type="submit" class="btn btn-primary">Register</button>
             </form>
             <p class="auth-link">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
         </div>
     </div>
+    
+    <script>
+        // Client-side validation (enhances server-side validation)
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            let username = document.getElementById('username').value.trim();
+            let password = document.getElementById('password').value;
+            let role = document.getElementById('role').value;
+            let teamId = document.getElementById('team_id').value.trim();
+            let hasError = false;
+            
+            // Reset any previous error states
+            document.querySelectorAll('.input-error').forEach(function(el) {
+                el.classList.remove('input-error');
+            });
+            
+            // Remove any previous error messages
+            document.querySelectorAll('.error-text').forEach(function(el) {
+                el.remove();
+            });
+            
+            // Username validation
+            if (username === '') {
+                addError('username', 'Username is required');
+                hasError = true;
+            } else if (username.length < 3) {
+                addError('username', 'Username must be at least 3 characters');
+                hasError = true;
+            } else if (!(/^[a-zA-Z0-9]+$/.test(username))) {
+                addError('username', 'Username must contain only letters and numbers');
+                hasError = true;
+            }
+            
+            // Password validation
+            if (password === '') {
+                addError('password', 'Password is required');
+                hasError = true;
+            } else if (password.length < 6) {
+                addError('password', 'Password must be at least 6 characters');
+                hasError = true;
+            }
+            
+            // Role validation
+            if (role === '' || role === null) {
+                document.getElementById('role').classList.add('input-error');
+                hasError = true;
+            }
+            
+            // Team ID validation
+            if (teamId === '') {
+                addError('team_id', 'Team ID is required');
+                hasError = true;
+            } else if (isNaN(teamId) || parseInt(teamId) <= 0) {
+                addError('team_id', 'Team ID must be a positive number');
+                hasError = true;
+            }
+            
+            if (hasError) {
+                e.preventDefault(); // Prevent form submission if validation fails
+            }
+            
+            // Helper function to add error messages
+            function addError(fieldId, message) {
+                const field = document.getElementById(fieldId);
+                field.classList.add('input-error');
+                
+                const errorText = document.createElement('div');
+                errorText.className = 'error-text';
+                errorText.textContent = message;
+                errorText.style.color = '#c62828';
+                errorText.style.fontSize = '0.8em';
+                errorText.style.marginTop = '5px';
+                
+                field.parentNode.appendChild(errorText);
+            }
+        });
+    </script>
 </body>
 </html>
