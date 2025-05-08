@@ -17,25 +17,19 @@ The Event Tracker is a website designed to make organizing ones schedule easier,
 >The event tracker is built to assist athletes and coaches at Fresno Pacific University, and relies on a database to store login information
 >
 ### 2.2 Product Functions
->Major functions include: event scheduling, account registering, announcement feature, feedback loop.
+>Major functions include: event scheduling, account registering, announcement feature, player feedback forms.
 
 ### 2.3 User Classes and Characteristics
 >The two user classes that are expected to make use of this are coaches and athletes who need a way to better organize time. It's to be assumed that they will have basic technical expertise and can make use of the website whenever needed.
 
-### 2.4 Operating Environment
->
->The Operation Registration website is hosted by Railway which builds and hosts a pair of Docker containers (current version is 20.10.14);one for the front end and a second for the backend. Each image is given its own ip address and communicate with one another, but users are only able to access the front end image. The project's GitHub repository is also linked to Railway which automatically updates when changes are made to the source code in the linked repository.
+### 2.4 User Documentation
+>Users will have documentation instructions on how to get the application up and running. There will also be pop-up messages where needed to help guide users within the app (eg., Registration and Login corrections).
 
-### 2.5 Design and Implementation Constraints
->Since the project will be implemented as a website that consolidates information being hosted by a third party (Fresno State), the website will only be able to function while Fresno State's online resources are functioning properly. Furthermore, any changes to how or where data pertinent to the website will have to be accounted for manually. Additionally, the website will be unable to run on machines that have no web browsers (Internet Edge, Firefox, Google Chrome, Safari) and/or no internet connection.
-
-### 2.6 User Documentation
->Users will have prompts on-screen to guide them through the schedule generation process (see section 3.1).
-
-### 2.7 Assumptions and Dependencies
+### 2.5 Assumptions and Dependencies
 >It is assumed that
 >* The athletes and coaches are to use this fairly often
 >* The database functions without any hiccups
+>* Coaches will tell their athletes with team code is unique to their teams
 
 
 ## 3. External Interface Requirements
@@ -81,7 +75,7 @@ The Event Tracker is a website designed to make organizing ones schedule easier,
 
 ### 4.1 Login Screen
 #### 4.1.1 Description
->This is where the user signs in with their username and password. If they do not have an account, they can register with a name, password, team ID and either as a teammate or a coach.
+>This is where the user signs in with their username and password. If they do not have an account, they can register with a name, password, team ID and either as a player or a coach.
 
 
 ### 4.2 Dashboard
