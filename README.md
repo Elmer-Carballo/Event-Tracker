@@ -36,29 +36,50 @@ The Event Tracker is a website designed to make organizing ones schedule easier,
 
 ### 3.1 User Interfaces
 
-> * **Splash Page**
+> * **Login**
 ![Splash Page](/media/Splash-Page.png)
 
 
-> * **Term Selection**
+> * **Register**
 ![Term Selection](/media/Term-Selection.png)
 
 
-> * **Course Selection**
+> * **Coach Dashboard**
 ![Course Selection-1](/media/Course-Selection-1.png)
 
-![Course Selection-2](/media/Course-Selection-2.png)
 
-
-> * **Busy Period Input**
+> * **Coach Add Event**
 ![Busy Period Input-1](/media/Busy-Period-Input-1.png)
 
-![Busy Period Input-2](/media/Busy-Period-Input-2.png)
 
->* **Schedule Generation**
+>* **Coach Edit Event**
 ![Schedule Generation-1](/media/Schedule-Generation-1.png)
 
-![Schedule Generation-2](/media/Schedule-Generation-2.png)
+
+> * **Coach View Player Feedback**
+![Term Selection](/media/Term-Selection.png)
+
+
+> * **View Messages**
+![Term Selection](/media/Term-Selection.png)
+
+
+> * **Player Dashboard**
+![Term Selection](/media/Term-Selection.png)
+
+
+> * **Player Add Event**
+![Term Selection](/media/Term-Selection.png)
+
+
+> * **Player Edit Event**
+![Term Selection](/media/Term-Selection.png)
+
+
+> * **Player Feedback Form**
+![Term Selection](/media/Term-Selection.png)
+
+
 
 
 ### 3.2 Hardware Interfaces
