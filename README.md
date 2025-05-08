@@ -116,7 +116,7 @@ The event tracker created for CSSE-350: Software Engineering.
     - If you get an error, try pip3 install mysql-connector-python or ensure you’re using the correct Python environment.
   
 2) Set Up MySQL:
-    - Ensure MySQL is installed and running on both students’ computers (MacOS and Windows). If not, follow the installation steps from the workbook (Task 0.1).
+    - Ensure MySQL is installed and running.
     - Log into MySQL: mysql -u root -p and enter your root password.
   
 3) Create the Database:
