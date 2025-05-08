@@ -37,37 +37,37 @@ The Event Tracker is a website designed to make organizing ones schedule easier,
 ### 3.1 User Interfaces
 
 > * **Login**
-ScreenImages/Login.png
+(ScreenImages/Login.png)
 
 > * **Register**
-ScreenImages/Register.png
+(ScreenImages/Register.png)
 
 > * **Coach Dashboard**
-ScreenImages/CoachDashboard.png
+(ScreenImages/CoachDashboard.png)
 
 > * **Coach Add Event**
-ScreenImages/CoachAddEvent.png
+(ScreenImages/CoachAddEvent.png)
 
 >* **Coach Edit Event**
-ScreenImages/CoachAddEvent.png
+(ScreenImages/CoachAddEvent.png)
 
 > * **Coach View Player Feedback**
-ScreenImages/CoachEditEvent.png
+(ScreenImages/CoachEditEvent.png)
 
 > * **View Messages**
-ScreenImages/CoachViewPlayerFeedback.png
+(ScreenImages/CoachViewPlayerFeedback.png)
 
 > * **Player Dashboard**
-ScreenImages/ViewMessages.png
+(ScreenImages/ViewMessages.png)
 
 > * **Player Add Event**
-ScreenImages/PlayerDashboard.png
+(ScreenImages/PlayerDashboard.png)
 
 > * **Player Edit Event**
-ScreenImages/PlayerAddEvent.png
+(ScreenImages/PlayerAddEvent.png)
 
 > * **Player Feedback Form**
-ScreenImages/PlayerFeedbackForm.png
+(ScreenImages/PlayerFeedbackForm.png)
 
 
 ### 3.2 Hardware Interfaces
