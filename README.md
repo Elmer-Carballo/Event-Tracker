@@ -1,3 +1,8 @@
+# Event-Tracker
+The event tracker created for CSSE-350: Software Engineering.
+
+
+
 ## 1. Introduction
 The Event Tracker is a website designed to make organizing ones schedule easier, more specifically for athletes and coaches.
 
@@ -105,9 +110,6 @@ The Event Tracker is a website designed to make organizing ones schedule easier,
 ### 5.1.1 Ease of Use
 >It is imperative that the website be intuitive and simple to use, as the primary objective is to minimize time spent creating the schedules.
 
-
-# Event-Tracker
-The event tracker created for CSSE-350: Software Engineering.
 
 
 **Steps to use "app.py"**
